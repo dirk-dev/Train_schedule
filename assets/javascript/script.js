@@ -8,6 +8,13 @@ $(document).ready(function () {
     * user inputs train name, destination, first train time, frequency in minutes
     use UTC???
 
+    possible code for calculating minutes away:
+
+    convert all times to 'time from epoch'
+
+    current time - first train time = result
+    result % frequency  = minutes away (may need to convert back to human-readable time)
+
 
 
     ! need control to limit input to military time, frequency to minutes
@@ -17,6 +24,8 @@ $(document).ready(function () {
     * on click auto populates on-screen table
     * data goes to Firebase DB
     */
+
+
 
     $("#submit-button").on("click", function () {
 
