@@ -8,14 +8,19 @@ $(document).ready(function () {
     * user inputs train name, destination, first train time, frequency in minutes
     use UTC???
 
+
+
     possible code for calculating minutes away:
 
     convert all times to 'time from epoch'
 
     current time - first train time = result
+
+    current time > var now = moment();
     result % frequency  = minutes away (may need to convert back to human-readable time)
 
 
+    
 
     ! need control to limit input to military time, frequency to minutes
 
@@ -36,11 +41,16 @@ $(document).ready(function () {
         var firstTrainTime = $("#first-train-time").val().trim();
         var frequency = $("#frequency").val().trim();
 
+        //gets the current time in 
+        var now = moment();
+        console.log("now from Moment: " + now);
+
         console.log(trainName, destination, firstTrainTime, frequency);
 
 
         var currentTime = (moment().format("HH:mm"));
         console.log("the current time is: " + currentTime);
+        
 
         var minutesAway = ((currentTime - firstTrainTime) - frequency);
         console.log("the next train is: " + minutesAway + " minutes away");
