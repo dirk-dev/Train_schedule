@@ -39,7 +39,7 @@ $(document).ready(function () {
         var trainName = $("#train-name").val().trim();
         var destination = $("#destination").val().trim();
         var firstTrainTime = $("#first-train-time").val().trim();
-        var frequency = parseInt($("#frequency").val().trim());
+        var frequency = $("#frequency").val().trim();
 
 
         // firstTrainTime = moment(firstTrainTime);
@@ -55,16 +55,26 @@ $(document).ready(function () {
         // console.log("First Train time is: " + firstTrainTime);
 
 
-
-        firstTrainTime = moment(firstTrainTime, "HH:mma")
+        //converts user input into moment data format, specifies format of data input
+        firstTrainTime = moment(firstTrainTime, "HH:mma");
+        firstTrainTime = firstTrainTime/1000;
         console.log("1st train time= " + firstTrainTime);
 
         //gets the current time via moment.js
-        var currentTime = moment().valueOf();
+        //.valueOf returns milliseconds since the Unix Epoch (1/1/1970 00:00:00)
+        var currentTime = moment().unix();
+        // currentTime = currentTime/1000;
         console.log("var currentTime format = ", currentTime);
 
         // (currentTime, "HH:mma");
 
+
+        //doesn't work!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        var currentReadableTime = moment(currentTime, "HH:mma");
+        console.log("current time in readable form is: " + currentReadableTime);
+
+
+        //TODO:
         //parse time values to display human-readable format
 
 
@@ -76,7 +86,8 @@ $(document).ready(function () {
         var minutesAway = Math.abs(((currentTime - firstTrainTime) % frequency));
         console.log("the next train is: " + minutesAway + " minutes away");
 
-        var nextArrival;
+        var nextArrival = currentTime + minutesAway;
+        console.log("next arrival is: " + nextArrival);
 
         $("#trainData").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
