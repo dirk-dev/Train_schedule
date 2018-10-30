@@ -22,12 +22,12 @@ $(document).ready(function () {
 
     
 
-    ! need control to limit input to military time, frequency to minutes
+    !!!! need control to limit input to military time, frequency to minutes
 
     * formulas to calculate next arrival time & minutes away
 
     * on click auto populates on-screen table
-    * data goes to Firebase DB
+    * !!! data goes to Firebase DB
     */
 
 
@@ -39,20 +39,41 @@ $(document).ready(function () {
         var trainName = $("#train-name").val().trim();
         var destination = $("#destination").val().trim();
         var firstTrainTime = $("#first-train-time").val().trim();
-        var frequency = $("#frequency").val().trim();
+        var frequency = parseInt($("#frequency").val().trim());
 
-        //gets the current time in 
-        var now = moment();
-        console.log("now from Moment: " + now);
+
+        // firstTrainTime = moment(firstTrainTime);
+        // console.log("The first train moment = " + firstTrainTime);
 
         console.log(trainName, destination, firstTrainTime, frequency);
 
+        // var currentTime = (moment().format("HH:mm"));
+        // console.log("the current time is: " + currentTime);
 
-        var currentTime = (moment().format("HH:mm"));
-        console.log("the current time is: " + currentTime);
-        
 
-        var minutesAway = ((currentTime - firstTrainTime) - frequency);
+        // firstTrainTime =  firstTrainTime.format() (moment(firstTrainTime));
+        // console.log("First Train time is: " + firstTrainTime);
+
+
+
+        firstTrainTime = moment(firstTrainTime, "HH:mma")
+        console.log("1st train time= " + firstTrainTime);
+
+        //gets the current time via moment.js
+        var currentTime = moment().valueOf();
+        console.log("var currentTime format = ", currentTime);
+
+        // (currentTime, "HH:mma");
+
+        //parse time values to display human-readable format
+
+
+
+
+        var timeDifference = (currentTime - firstTrainTime);
+        console.log("TimeDifference = " + timeDifference);
+
+        var minutesAway = Math.abs(((currentTime - firstTrainTime) % frequency));
         console.log("the next train is: " + minutesAway + " minutes away");
 
         var nextArrival;
