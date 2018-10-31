@@ -1,18 +1,53 @@
-.display-4, #masthead_p {
+.display-4,
+#masthead_p {
     font-weight: bold;
     text-align: center;
 }
 
+
+hr {
+    overflow: visible;
+    /* For IE */
+    height: 30px;
+    border-style: solid;
+    border-color: rgb(238, 238, 238);
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+}
+
+
 .jumbotron {
-    background-color: rgb(29, 29, 129);
+    background-color: rgb(22, 22, 88);
     color: white;
+    border-radius: 15px;
+    height: 300px;
+}
+
+
+.card-header {
+    background-image: linear-gradient(to right, rgba(22, 22, 88, 1), rgba(22, 22, 88, .5));
+    color: white;
+    font-weight: bold;
+    font-size: 23px;
     border-radius: 15px;
 }
 
-.my-4 {
-    color: white;
-    /* NOT WORKING!!! */
-    
+
+.card {
+    border-radius: 15px;
+}
+
+#input-card {
+    height: 377px;
+}
+
+
+.form-control {
+    background-color: rgb(245, 243, 243);
+}
+
+.form-group {
+    height: 62px;
 }
 
 #masthead_p {

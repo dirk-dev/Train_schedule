@@ -70,9 +70,7 @@ $(document).ready(function () {
         //formats to human-readable time for table
         nextArrival = (moment(nextArrival).format("h:mm A"));
         console.log("next arrival is: " + nextArrival);
-
-        $("#trainData").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
-
+        
     });
 
     //gets the current time via moment.js
@@ -82,26 +80,24 @@ $(document).ready(function () {
     console.log("var currentTime format = ", currentTime);
     console.log("current time: " + currentTime.format("h:mm A"));
 
-
     // Firebase watcher .on("child_added"
     database.ref().on("child_added", function (childSnapshot) {
         // storing the snapshot.val() in a variable for convenience
 
-        // // console.logs the last user's data
+        // console.logs the last user's data
         // console.log(sv.trainName);
         // console.log(sv.destination);
         // console.log(sv.firstTrainTime);
         // console.log(sv.frequency);
         // console.log(sv.dateAdded);
 
-        $("#trainData").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" + childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td><td>" + childSnapshot.val().nextArrival + "</td><td>" + minutesAway + "</td></tr>");
+        $("#trainData").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" + childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
 
         // Handle the errors
     }, function (errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
-
 
     database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function (snapshot) {
 
