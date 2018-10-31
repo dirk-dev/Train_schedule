@@ -4,57 +4,59 @@ $(document).ready(function () {
 
     // Initialize Firebase
     var config = {
-        apiKey: "AIzaSyCyk2md1GGa3kVqlBN4_e0NDdsxP5JE7x8",
-        authDomain: "train-schedule-54341.firebaseapp.com",
-        databaseURL: "https://train-schedule-54341.firebaseio.com",
-        projectId: "train-schedule-54341",
-        storageBucket: "train-schedule-54341.appspot.com",
-        messagingSenderId: "1057644969419"
-    };
+        apiKey: "AIzaSyCdDR8d6onMkdtLN-BtK59AAtEVojNAft0",
+        authDomain: "recentuser-44024.firebaseapp.com",
+        databaseURL: "https://recentuser-44024.firebaseio.com",
+        projectId: "recentuser-44024",
+        storageBucket: "recentuser-44024.appspot.com",
+        messagingSenderId: "303535582852"
+      };
     firebase.initializeApp(config);
-
 
     // Create a variable to reference the database.
     var database = firebase.database();
 
-    var trainName = "";
-    var destination = "";
-    var firstTrainTime = 0;
-    var frequency = 0
+    // var trainName = "";
+    // var destination = "";
+    // var firstTrainTime = 0;
+    // var frequency = 0
 
-   /* pseudocode
+    /* pseudocode
 
-    * user inputs train name, destination, first train time, frequency in minutes
-    use UTC???
+     * user inputs train name, destination, first train time, frequency in minutes
+     use UTC???
 
+     possible code for calculating minutes away:
 
-    possible code for calculating minutes away:
+     convert all times to 'time from epoch'
 
-    convert all times to 'time from epoch'
+     current time - first train time = result
 
-    current time - first train time = result
-
-    current time > var now = moment();
-    result % frequency  = minutes away (may need to convert back to human-readable time)
+     current time => var now = moment();
+     result % frequency  = minutes away (may need to convert back to human-readable time)
 
    
-    !!!! need control to limit input to military time, frequency to minutes
+     !!!! need control to limit input to military time, frequency to positive minutes
 
-    * formulas to calculate next arrival time & minutes away
+     * formulas to calculate next arrival time & minutes away
 
-    * on click auto populates on-screen table
-    * !!! data goes to Firebase DB
-    */
+     * on click auto populates on-screen table
+     */
+
+    // data not persisting in browser
+    // time is not taking time zone into account
+    // time displayed in next arrival not in hh:mm
+    // formula for minutes away not correct
 
 
-    $("#submit-button").on("click", function () {
+    $("#submit-button").on("click", function (event) {
 
         event.preventDefault();
 
-        trainName = $("#train-name").val().trim();
-        destination = $("#destination").val().trim();
-        firstTrainTime = $("#first-train-time").val().trim();
-        frequency = $("#frequency").val().trim();
+        var trainName = $("#train-name").val().trim();
+        var destination = $("#destination").val().trim();
+        var firstTrainTime = $("#first-train-time").val().trim();
+        var frequency = $("#frequency").val().trim();
 
         database.ref().push({
             trainName: trainName,
@@ -64,27 +66,12 @@ $(document).ready(function () {
             dateAdded: firebase.database.ServerValue.TIMESTAMP
         });
 
-
         console.log(trainName, destination, firstTrainTime, frequency);
-
-        // var currentTime = (moment().format("HH:mm"));
-        // console.log("the current time is: " + currentTime);
-
-
-        // firstTrainTime =  firstTrainTime.format() (moment(firstTrainTime));
-        // console.log("First Train time is: " + firstTrainTime);
-
 
         //converts user input into moment data format, specifies format of data input
         firstTrainTime = moment(firstTrainTime, "HH:mma");
         firstTrainTime = firstTrainTime / 1000;
-        console.log("1st train time= " + firstTrainTime);
-
-  
-        //TODO:
-        //parse time values to display human-readable format
-        //take into account time zones
-
+        console.log("1st train time: " + firstTrainTime);
 
         var timeDifference = (currentTime - firstTrainTime);
         console.log("TimeDifference = " + timeDifference);
@@ -97,36 +84,40 @@ $(document).ready(function () {
 
         $("#trainData").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
-
     });
 
     //gets the current time via moment.js
-    //.valueOf returns Unix time in seconds since the Unix Epoch (1/1/1970 00:00:00)
     var currentTime = moment().unix();
     console.log("var currentTime format = ", currentTime);
-    // console.log(currentTime.format("HH/mm/ss"));
+
 
 
     // Firebase watcher .on("child_added"
-    database.ref().on("child_added", function (snapshot) {
+    database.ref().on("child_added", function (childSnapshot) {
         // storing the snapshot.val() in a variable for convenience
-        var sv = snapshot.val();
+        // var sv = snapshot.val();
 
         // Console.loging the last user's data
-        console.log(sv.trainName);
-        console.log(sv.destination);
-        console.log(sv.firstTrainTime);
-        console.log(sv.frequency);
+        console.log(childSnapshot.val().trainName);
+        console.log(childSnapshot.val().destination);
+        console.log(childSnapshot.val().firstTrainTime);
+        console.log(childSnapshot.val().frequency);
 
         // Change the HTML to reflect
-        $("#name-display").text(sv.trainName);
-        $("#email-display").text(sv.destination);
-        $("#age-display").text(sv.firstTrainTime);
-        $("#comment-display").text(sv.frequency);
+
+
 
         // Handle the errors
-    }, function (errorObject) {
+    }, 
+    
+    function (errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
+
+    $("#train-name").text(childSnapshot.val().trainName);
+    $("#destination").text(childSnapshot.val().destination);
+    $("first-train-time").text(childSnapshot.val().firstTrainTime);
+    $("#frequency").text(childSnapshot.val().frequency);
+
 
 });
