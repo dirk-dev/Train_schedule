@@ -28,12 +28,10 @@ $(document).ready(function () {
      use UTC???
      possible code for calculating minutes away:
          current time - first train time = result
-     current time > var now = moment();
+     current time => var now = moment();
      result % frequency  = minutes away (may need to convert back to human-readable time)
-   
-     !!!! need control to limit input to military time, frequency to minutes
+        !!!! need control to limit input to military time, frequency to minutes
      * formulas to calculate next arrival time & minutes away
-     * on click auto populates on-screen table
      */
 
 
@@ -63,14 +61,15 @@ $(document).ready(function () {
         timeDifference = (currentTime - firstTrainTime);
         console.log("TimeDifference: " + (timeDifference));
 
-        minutesAway = Math.abs((((currentTime - firstTrainTime) * 60) % frequency));
+        // .06 is needed because the times are in milliseconds, and the frequency is in minutes. (divide by 1000 to get seconds, multiply by 60 to get minutes)
+        minutesAway = ((((currentTime - firstTrainTime) * .06) % frequency));
         console.log("the next train is: " + minutesAway + " minutes away");
 
         nextArrival = currentTime + minutesAway;
         //formats to human-readable time for table
         nextArrival = (moment(nextArrival).format("h:mm A"));
         console.log("next arrival is: " + nextArrival);
-        
+
     });
 
     //gets the current time via moment.js
@@ -82,19 +81,11 @@ $(document).ready(function () {
 
     // Firebase watcher .on("child_added"
     database.ref().on("child_added", function (childSnapshot) {
-        // storing the snapshot.val() in a variable for convenience
-
-        // console.logs the last user's data
-        // console.log(sv.trainName);
-        // console.log(sv.destination);
-        // console.log(sv.firstTrainTime);
-        // console.log(sv.frequency);
-        // console.log(sv.dateAdded);
-
-        $("#trainData").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" + childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
 
-        // Handle the errors
+        $("#trainData").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" +
+            childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
+
     }, function (errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
@@ -104,13 +95,16 @@ $(document).ready(function () {
         var sv = snapshot.val();
 
         // Change the HTML to reflect
-        $("#name-display").text(sv.trainName);
-        $("#email-display").text(sv.destination);
-        $("#age-display").text(sv.firstTrainTime);
-        $("#comment-display").text(sv.frequency);
+        $("#train-name").text(sv.trainName);
+        $("#destination").text(sv.destination);
+        $("#first-train-time").text(sv.firstTrainTime);
+        $("#frequency").text(sv.frequency);
+
+        // console.logs the last user's data
+        console.log("sv.trainName: " + sv.trainName + " sv.destination: " + sv.destination +
+            " sv.frequency " + sv.frequency + " sv.dateAdded: " + sv.dateAdded);
 
 
     });
-    // CURRENT VERSION
 
 });
