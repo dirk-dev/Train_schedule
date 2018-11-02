@@ -20,7 +20,7 @@ hr {
     background-color: rgb(22, 22, 88);
     color: white;
     border-radius: 15px;
-    height: 300px;
+    height: 275px;
 }
 
 
@@ -28,14 +28,16 @@ hr {
     background-image: linear-gradient(to right, rgba(22, 22, 88, 1), rgba(22, 22, 88, .5));
     color: white;
     font-weight: bold;
-    font-size: 23px;
+    font-size: 20px;
     border-radius: 15px;
+    height: 45px;
 }
 
 
 .card {
     border-radius: 15px;
 }
+
 
 #input-card {
     height: 377px;
@@ -46,11 +48,13 @@ hr {
     background-color: rgb(245, 243, 243);
 }
 
+
 .form-group {
     height: 62px;
 }
 
+
 #masthead_p {
-    font-size: 30px;
+    font-size: 25px;
     font-style: italic;
 }

@@ -15,8 +15,7 @@ $(document).ready(function () {
     function trainCalculate(trainName, firstTrainTime, frequency) {
 
         currentTime = moment();
-        // console.log("var currentTime format = ", currentTime);
-        // console.log("current time: " + currentTime.format("h:mm A"));
+
         console.log("The name of the train is: " + trainName + " the start time is : " + firstTrainTime + " The frequency is: " + frequency);
 
         firstTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "years");
@@ -24,36 +23,17 @@ $(document).ready(function () {
 
 
         timeDifference = moment().diff(moment(firstTrainTime), "minutes");
-        // timeDifference = (currentTime - firstTrainTime);
         console.log("TimeDifference: " + (timeDifference));
 
         remainder = timeDifference % frequency;
 
-        // remainder = timeDifference % frequency;
-
         minutesAway = frequency - remainder;
 
+        nextArrival = moment().add(minutesAway, "minutes").format("h:mm A");
 
-
-
-        // minutesAway = (Math.round(((currentTime - firstTrainTime) * .06) % frequency));
-        // console.log("the next train is: " + minutesAway + " minutes away");
-
-
-        nextArrival = moment().add(minutesAway, "minutes");
-        nextArrival = nextArrival.format("h:mm A");
-
-        // // .06 is needed because the times are in milliseconds, and the frequency is in minutes. (divide by 1000 to get seconds, multiply by 60 to get minutes)
-
-        // // nextArrival = currentTime + minutesAway;
-        // //formats to human-readable time for table
-        // nextArrival = (moment(nextArrival).format("h:mm A"));
-        // console.log("next arrival is: " + nextArrival);
     };
 
     $("#submit-button").on("click", function () {
-
-        event.preventDefault();
 
         trainName = $("#train-name").val().trim();
         destination = $("#destination").val().trim();
@@ -69,11 +49,7 @@ $(document).ready(function () {
         });
 
 
-
     });
-
-    //DATA NOT CORRECT WHEN PULLING FROM FIREBASE
-
 
     database.ref().on("child_added", function (childSnapshot) {
 
@@ -88,15 +64,6 @@ $(document).ready(function () {
 
     database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function (snapshot) {
 
-        // var sv = snapshot.val();
-
-        // $("#train-name").text(sv.trainName);
-        // $("#destination").text(sv.destination);
-        // $("#first-train-time").text(sv.firstTrainTime);
-        // $("#frequency").text(sv.frequency);
-
-        // console.log("sv.trainName: " + sv.trainName + " sv.destination: " + sv.destination +
-        //     " sv.frequency " + sv.frequency + " sv.dateAdded: " + sv.dateAdded);
 
     });
 
