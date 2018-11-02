@@ -12,14 +12,38 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    var trainName;
-    var destination;
-    var firstTrainTime;
-    var frequency;
-    var nextArrival;
-    var minutesAway;
+    function trainCalculate(trainName, firstTrainTime, frequency) {
 
-  $("#submit-button").on("click", function () {
+        currentTime = moment();
+        // console.log("var currentTime format = ", currentTime);
+        // console.log("current time: " + currentTime.format("h:mm A"));
+        console.log("The name of the train is: " + trainName + " the start time is : " + firstTrainTime + " The frequency is: " + frequency);
+
+        firstTrainTime = moment(firstTrainTime, "h:mm A");
+        console.log("1st train time= " + firstTrainTime.format("h:mm A"));
+
+        timeDifference = (currentTime - firstTrainTime);
+        console.log("TimeDifference: " + (timeDifference));
+
+        remainder = timeDifference % frequency;
+
+        minutesAway = frequency - remainder;
+
+        // minutesAway = (Math.round(((currentTime - firstTrainTime) * .06) % frequency));
+        // console.log("the next train is: " + minutesAway + " minutes away");
+
+
+        nextArrival = moment((minutesAway + currentTime), "h:mm A");
+
+        // // .06 is needed because the times are in milliseconds, and the frequency is in minutes. (divide by 1000 to get seconds, multiply by 60 to get minutes)
+
+        // // nextArrival = currentTime + minutesAway;
+        // //formats to human-readable time for table
+        // nextArrival = (moment(nextArrival).format("h:mm A"));
+        // console.log("next arrival is: " + nextArrival);
+    };
+
+    $("#submit-button").on("click", function () {
 
         event.preventDefault();
 
@@ -36,32 +60,16 @@ $(document).ready(function () {
             dateAdded: firebase.database.ServerValue.TIMESTAMP
         });
 
-        console.log("User entered data - train name: " + trainName + " destination: " + destination + " 1st train time: " + firstTrainTime + " frequency: " + frequency);
 
-        firstTrainTime = moment(firstTrainTime, "h:mm A");
-        console.log("1st train time= " + firstTrainTime);
-
-        timeDifference = (currentTime - firstTrainTime);
-        console.log("TimeDifference: " + (timeDifference));
-
-        // .06 is needed because the times are in milliseconds, and the frequency is in minutes. (divide by 1000 to get seconds, multiply by 60 to get minutes)
-        minutesAway = (Math.round(((currentTime - firstTrainTime) * .06) % frequency));
-        console.log("the next train is: " + minutesAway + " minutes away");
-
-        nextArrival = currentTime + minutesAway;
-        //formats to human-readable time for table
-        nextArrival = (moment(nextArrival).format("h:mm A"));
-        console.log("next arrival is: " + nextArrival);
 
     });
 
-    var currentTime = moment();
+    //DATA NOT CORRECT WHEN PULLING FROM FIREBASE
 
-    console.log("var currentTime format = ", currentTime);
-    console.log("current time: " + currentTime.format("h:mm A"));
 
     database.ref().on("child_added", function (childSnapshot) {
 
+        trainCalculate(childSnapshot.val().trainName, childSnapshot.val().firstTrainTime, childSnapshot.val().frequency);
 
         $("#trainData").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" +
             childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
@@ -72,15 +80,15 @@ $(document).ready(function () {
 
     database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function (snapshot) {
 
-        var sv = snapshot.val();
+        // var sv = snapshot.val();
 
-        $("#train-name").text(sv.trainName);
-        $("#destination").text(sv.destination);
-        $("#first-train-time").text(sv.firstTrainTime);
-        $("#frequency").text(sv.frequency);
+        // $("#train-name").text(sv.trainName);
+        // $("#destination").text(sv.destination);
+        // $("#first-train-time").text(sv.firstTrainTime);
+        // $("#frequency").text(sv.frequency);
 
-        console.log("sv.trainName: " + sv.trainName + " sv.destination: " + sv.destination +
-            " sv.frequency " + sv.frequency + " sv.dateAdded: " + sv.dateAdded);
+        // console.log("sv.trainName: " + sv.trainName + " sv.destination: " + sv.destination +
+        //     " sv.frequency " + sv.frequency + " sv.dateAdded: " + sv.dateAdded);
 
     });
 
