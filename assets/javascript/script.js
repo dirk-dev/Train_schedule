@@ -19,21 +19,29 @@ $(document).ready(function () {
         // console.log("current time: " + currentTime.format("h:mm A"));
         console.log("The name of the train is: " + trainName + " the start time is : " + firstTrainTime + " The frequency is: " + frequency);
 
-        firstTrainTime = moment(firstTrainTime, "h:mm A");
+        firstTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "years");
         console.log("1st train time= " + firstTrainTime.format("h:mm A"));
 
-        timeDifference = (currentTime - firstTrainTime);
+
+        timeDifference = moment().diff(moment(firstTrainTime), "minutes");
+        // timeDifference = (currentTime - firstTrainTime);
         console.log("TimeDifference: " + (timeDifference));
 
         remainder = timeDifference % frequency;
 
+        // remainder = timeDifference % frequency;
+
         minutesAway = frequency - remainder;
+
+
+
 
         // minutesAway = (Math.round(((currentTime - firstTrainTime) * .06) % frequency));
         // console.log("the next train is: " + minutesAway + " minutes away");
 
 
-        nextArrival = moment((minutesAway + currentTime), "h:mm A");
+        nextArrival = moment().add(minutesAway, "minutes");
+        nextArrival = nextArrival.format("h:mm A");
 
         // // .06 is needed because the times are in milliseconds, and the frequency is in minutes. (divide by 1000 to get seconds, multiply by 60 to get minutes)
 
