@@ -1,3 +1,6 @@
+//Link to updated portfolio with this game added to the portfolio page:
+// https://dirk-kiesewetter.github.io/Responsive-Portfolio/portfolio.html
+
 $(document).ready(function () {
 
     var config = {
