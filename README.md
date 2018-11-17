@@ -7,3 +7,5 @@ The user enters the train name, destination, the time of the first train, and th
 When the user enters data into **Train Schedule**, it is uploaded to a Firebase database. Submitting another train entry refreshes the data, and the calculated data (Next Arrival and Minutes Away) is updated. Refreshing the web browser will also update the data.
 
 **Train Schedule** was coded by me, and is maintained by me. 
+
+The deployed app can be found at https://dirk-kiesewetter.github.io/Train_schedule/
