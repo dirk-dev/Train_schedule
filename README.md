@@ -17,7 +17,8 @@ ________________________________________________________________________________
 Train Schedule needed a way to access the current time, perform calculations and formatting of the time so it was user-readable. In addition, there needed to be a way to persist the data so that it would be current each time the user refreshed the page or added an entry.
 
 **Solutions:**
-* Moment.js along with standard JavaScript math operations provided the necessary functionality to access, manipulate, and format time. Firebase provided the data persistence.
+* Moment.js along with standard JavaScript math operations provided the necessary functionality to access, manipulate, and format time. 
+* Firebase provided the data persistence.
 
 **Technical Details:**
 * Moment.js was used to get the current time, and manipulate and format time for the needed calculations.
