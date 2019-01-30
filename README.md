@@ -1,4 +1,4 @@
-# Train_schedule
+# Train schedule
 
 ![Train Schedule](./assets/images/trainschedule.png)
 
@@ -22,16 +22,29 @@ When the user enters data into `Train Schedule`, it is uploaded to a Firebase da
 
 - Moment.js along with standard JavaScript math operations provided the necessary functionality to access, manipulate, and format time.
 - Firebase provided the data persistence.
-- jQuery
+- jQuery provided the interaction with HTML elements such as buttons.
 
 ---
 
+## How the app is organized:
+
+`Train Schedule` has an HMTL document for structure and the question coding, JavaScript for app logic, functions, and connections to the Firebase database, and CSS for the style.
+
+## How to run `Train Schedule`:
+
+`Train Schedule` can either be run from the hosted site (link is above) or you can download the files to a local directory. If you run it locally, you will need to connect to your own Firebase database, and change the info at lines 3-8 of the script.js file to your database credentials.
+
+## Demo:
+
+![Train schedule demo](./assets/gifs/train-schedule_demo.gif)
+
 ## Built with:
 
-- [Moment.js](https://momentjs.com/)
-- [Firebase](https://firebase.google.com/)
-- [Twitter Bootstrap](https://getbootstrap.com/)
+- [Bootstrap](https://getbootstrap.com/)
+- JavaScript
 - [jQuery](https://jquery.com/)
+- [Firebase](https://firebase.google.com/)
+- [Moment.js](https://momentjs.com/)
 
 ## Authors:
 
